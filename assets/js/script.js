@@ -65,7 +65,7 @@ function handleAddTask(event) {
 
   localStorage.setItem('tasks', JSON.stringify(tasks))
 }
-//the above function gets the needed elements, adds them to local storage, makes an object with all of the previous information, makes an empty array which has the object pushed into it
+//the above function gets the needed elements, adds them to local storage, makes an object with all of the previous information, makes an empty array which has the object pushed into it. Needs debugging
 
 // Todo: create a function to handle deleting a task
 function handleDeleteTask(event) {
