@@ -1,5 +1,5 @@
 // Retrieve tasks and nextId from localStorage
-const taskList = JSON.parse(localStorage.getItem("tasks"));
+const taskList = JSON.parse(localStorage.getItem("tasks")) || [];
 const nextId = JSON.parse(localStorage.getItem("nextId"));
 const formID = document.getElementById('formID');
 const saveButton = document.getElementById('save');
@@ -13,13 +13,14 @@ function generateTaskId() {
 
 // Todo: create a function to create a task card
 function createTaskCard(task) {
+  console.log(task);
   const taskCard = $('<div>')
     .addClass('card project-card draggable my-3')
     .attr('data-project-id', task.id);
-  const cardHeader = $('<div>').addClass('card-header h4').text(localStorage.getItem('taskTitle').value);
+  const cardHeader = $('<div>').addClass('card-header h4').text(task.title);
   const cardBody = $('<div>').addClass('card-body');
-  const cardDescription = $('<p>').addClass('card-text').text(localStorage.getItem('taskDescription').value);
-  const cardDueDate = $('<p>').addClass('card-text').text(localStorage.getItem('taskDueDate').value);
+  const cardDescription = $('<p>').addClass('card-text').text(task.description);
+  const cardDueDate = $('<p>').addClass('card-text').text(task.dueDate);
   const cardDeleteBtn = $('<button>')
     .addClass('btn btn-danger delete')
     .text('Delete')
@@ -31,14 +32,15 @@ function createTaskCard(task) {
 
   return taskCard;
 }
-//above functions creates a card from bootstrap, however using JS to add the needed elements, classes, attributes, ect (requires debugging)
+//above functions creates a card from bootstrap, however using JS to add the needed elements, classes, attributes, ect.
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
   $(".draggable").draggable();
-  for (const task of tasks) {
+  $('#todo-cards').empty();
+  for (const task of taskList) {
     const taskCard = createTaskCard(task);
-    // $('#task-list').append(taskCard)
+    $('#todo-cards').append(taskCard)
   }
 }
 
@@ -60,10 +62,10 @@ function handleAddTask(event) {
     description: taskDescription
   }
 
-  const tasks = []
-  tasks.push(newTask)
+  taskList.push(newTask)
 
-  localStorage.setItem('tasks', JSON.stringify(tasks))
+  localStorage.setItem('tasks', JSON.stringify(taskList))
+  renderTaskList();
 }
 //the above function gets the needed elements, adds them to local storage, makes an object with all of the previous information, makes an empty array which has the object pushed into it
 
